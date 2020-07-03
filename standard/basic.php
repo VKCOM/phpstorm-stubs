@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @deprecated 5.3.0 since 5.3.0
+ * @deprecated 5.3
  * Loads a PHP extension at runtime
  * @link https://php.net/manual/en/function.dl.php
  * @param string $library <p>
@@ -33,8 +33,6 @@
  * and execution is stopped. If <b>dl</b> fails because the
  * specified library couldn't be loaded, in addition to <b>FALSE</b> an
  * <b>E_WARNING</b> message is emitted.
- * @since 4.0
- * @since 5.0
  */
 function dl ($library) {}
 
@@ -45,7 +43,7 @@ function dl ($library) {}
  * The new title.
  * </p>
  * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
- * @since 5.5.0
+ * @since 5.5
  */
 function cli_set_process_title ($title) {}
 
@@ -53,7 +51,7 @@ function cli_set_process_title ($title) {}
  * Returns the current process title
  * @link https://php.net/manual/en/function.cli-get-process-title.php
  * @return string Return a string with the current process title or <b>NULL</b> on error.
- * @since 5.5.0
+ * @since 5.5
  */
 function cli_get_process_title () {}
 
@@ -73,16 +71,12 @@ function is_iterable($value) {}
  * An ISO-8859-1 string.
  * </p>
  * @return string the UTF-8 translation of <i>data</i>.
- * @since 4.0
- * @since 5.0
  */
 function utf8_encode ($data) {}
 
 /**
  * Converts a string with ISO-8859-1 characters encoded with UTF-8
- * @since 4.0
- * @since 5.0
-to single-byte ISO-8859-1
+ * to single-byte ISO-8859-1
  * @link https://php.net/manual/en/function.utf8-decode.php
  * @param string $data <p>
  * An UTF-8 encoded string.
@@ -151,6 +145,28 @@ function sapi_windows_cp_is_utf8() {}
 function sapi_windows_vt100_support ($stream, $enable) {}
 
 /**
+ * Set or remove a CTRL event handler.
+ *
+ * @link https://www.php.net/manual/en/function.sapi-windows-set-ctrl-handler.php
+ * @param callable $callable
+ * @param bool $add [optional]
+ * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
+ * @since 7.4
+ */
+function sapi_windows_set_ctrl_handler (callable $callable, bool $add = true) {}
+
+/**
+ * Send a CTRL event to another process.
+ *
+ * @link https://www.php.net/manual/en/function.sapi-windows-generate-ctrl-event.php
+ * @param int $event
+ * @param int $pid [optional]
+ * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
+ * @since 7.4
+ */
+function sapi_windows_generate_ctrl_event (int $event, int $pid = 0) {}
+
+/**
  * The full path and filename of the file. If used inside an include,
  * the name of the included file is returned.
  * Since PHP 4.0.2, <b>__FILE__</b> always contains an
@@ -197,7 +213,7 @@ define ('__METHOD__', '', true);
  * The trait name. (Added in PHP 5.4.0) As of PHP 5.4 this constant
  * returns the trait as it was declared (case-sensitive). The trait name includes the namespace
  * it was declared in (e.g. Foo\Bar).
- * @since 5.4.0
+ * @since 5.4
  * @link https://php.net/manual/en/language.constants.predefined.php
  */
 define ('__TRAIT__', '', true);
@@ -205,9 +221,8 @@ define ('__TRAIT__', '', true);
 /**
  * The directory of the file. If used inside an include,
  * the directory of the included file is returned. This is equivalent
- * to dirname(__FILE__). This directory name
+ * to `dirname(__FILE__)`. This directory name
  * does not have a trailing slash unless it is the root directory.
- * @since 5.3.0
  * @link https://php.net/manual/en/language.constants.predefined.php
  */
 define ('__DIR__', '', true);
@@ -215,8 +230,6 @@ define ('__DIR__', '', true);
 /**
  * The name of the current namespace (case-sensitive). This constant
  * is defined in compile-time (Added in PHP 5.3.0).
- * @since 5.3.0
  * @link https://php.net/manual/en/language.constants.predefined.php
  */
 define ('__NAMESPACE__', '', true);
-

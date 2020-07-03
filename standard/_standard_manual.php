@@ -1,13 +1,6 @@
 <?php
 
 /**
- * @param string $str The string being translated.
- * @param array $replace_pairs The replace_pairs parameter may be used as a substitute for to and from in which case it's an array in the form array('from' => 'to', ...).
- * @return string A copy of str, translating all occurrences of each character in from to the corresponding character in to.
- */
-function strtr ($str, array $replace_pairs) {};
-
-/**
  * (PHP 5.1)<br/>
  * Halts the execution of the compiler. This can be useful to embed data in PHP scripts, like the installation files.
  * Byte position of the data start can be determined by the __COMPILER_HALT_OFFSET__ constant
@@ -37,7 +30,7 @@ define("__COMPILER_HALT_OFFSET__",0);
  * @return string|false The binary representation of the given data or <b>FALSE</b> on failure.
  * @see bin2hex()
  * @see unpack()
- * @since 5.4.0
+ * @since 5.4
  */
 function hex2bin($data) {};
 

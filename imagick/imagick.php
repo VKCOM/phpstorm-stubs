@@ -1850,7 +1850,7 @@ class Imagick implements Iterator, Countable {
 	 * </p>
 	 * @return bool <b>TRUE</b> on success.
 	 */
-	public function writeImage ($filename = NULL) {}
+	public function writeImage ($filename = null) {}
 
 	/**
 	 * (PECL imagick 0.9.0-0.9.9)<br/>
@@ -6315,7 +6315,7 @@ class ImagickPixelIterator implements Iterator {
 	 * @link https://php.net/manual/en/imagickpixeliterator.newpixeliterator.php
 	 * @param Imagick $wand
 	 * @return bool <b>TRUE</b> on success. Throwing ImagickPixelIteratorException.
-	 * @throw ImagickPixelIteratorException
+	 * @throws ImagickPixelIteratorException
 	 */
 	public function newPixelIterator (Imagick $wand) {}
 

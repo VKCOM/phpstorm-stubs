@@ -2,7 +2,7 @@ sudo: required
 
 language: php
 php:
-  - '7.3'
+  - '7.4'
 
 services:
   - docker
@@ -11,10 +11,15 @@ addons:
     packages:
       - docker-ce
 
+cache:
+  directories:
+    - $HOME/.php-cs-fixer
+
 install:
   - composer install --ignore-platform-reqs
 
 script:
-  - docker-compose -f docker-compose.yml pull
+  - docker-compose -f docker-compose.yml build >/dev/null
   - docker-compose -f docker-compose.yml run php /opt/project/phpstorm-stubs/vendor/bin/phpunit /opt/project/phpstorm-stubs/tests/
   - ./tests/check-stub-map
+  - composer cs

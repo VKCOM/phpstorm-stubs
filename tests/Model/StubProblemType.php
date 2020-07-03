@@ -17,4 +17,8 @@ interface StubProblemType
     public const PARAMETER_TYPE_MISMATCH = 9;
     public const PARAMETER_REFERENCE = 10;
     public const PARAMETER_VARARG = 11;
+    public const ABSENT_IN_META = 12;
+    public const PROPERTY_IS_STATIC = 13;
+    public const PROPERTY_ACCESS = 14;
+    public const PROPERTY_TYPE = 15;
 }

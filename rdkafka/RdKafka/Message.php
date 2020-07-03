@@ -30,6 +30,11 @@ class Message
     public $payload;
 
     /**
+     * @var int
+     */
+    public $len;
+
+    /**
      * @var string
      */
     public $key;

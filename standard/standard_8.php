@@ -54,8 +54,6 @@
  * errno.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function syslog ($priority, $message) {}
 
@@ -63,8 +61,6 @@ function syslog ($priority, $message) {}
  * Close connection to system logger
  * @link https://php.net/manual/en/function.closelog.php
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function closelog () {}
 
@@ -72,11 +68,9 @@ function closelog () {}
  * Registers a function that will be called when PHP starts sending output.
  * The callback is executed just after PHP prepares all headers to be sent,<br>
  * and before any other output is sent, creating a window to manipulate the outgoing headers before being sent.
- * @linkhttps://secure.php.net/manual/en/function.header-register-callback.php
+ * @link https://secure.php.net/manual/en/function.header-register-callback.php
  * @param callable $callback Function called just before the headers are sent.
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function header_register_callback ( callable $callback ) {}
 
@@ -116,8 +110,7 @@ function stream_set_chunk_size ($fp , $chunk_size) {}
  * @link https://php.net/manual/en/function.define-syslog-variables.php
  * @deprecated 5.3
  * @return void
- * @since 4.0
- * @since 5.0
+ * @removed 5.4
  */
 function define_syslog_variables () {}
 
@@ -125,8 +118,6 @@ function define_syslog_variables () {}
  * Combined linear congruential generator
  * @link https://php.net/manual/en/function.lcg-value.php
  * @return float A pseudo random float value in the range of (0, 1)
- * @since 4.0
- * @since 5.0
  */
 function lcg_value () {}
 
@@ -141,8 +132,6 @@ function lcg_value () {}
  * The default value of 0 means no restriction.
  * </p>
  * @return string|false the metaphone key as a string, or FALSE on failure
- * @since 4.0
- * @since 5.0
  */
 function metaphone ($str, $phonemes = 0) {}
 
@@ -204,33 +193,26 @@ function metaphone ($str, $phonemes = 0) {}
  * Default value 0 means that the function is called only in the end,
  * other special value 1 sets chunk_size to 4096.
  * </p>
- * @param bool $erase [optional] <p>
- * If the optional parameter erase is set to false,
- * the buffer will not be deleted until the script finishes.
- * This causes that flushing and cleaning functions would issue a notice
- * and return false if called.
+ * @param int $flags [optional] <p>
+ * The flags parameter is a bitmask that controls the operations that can be performed on the output buffer.
+ * The default is to allow output buffers to be cleaned, flushed and removed, which can be set explicitly via
+ * PHP_OUTPUT_HANDLER_CLEANABLE | PHP_OUTPUT_HANDLER_FLUSHABLE | PHP_OUTPUT_HANDLER_REMOVABLE, or PHP_OUTPUT_HANDLER_STDFLAGS as shorthand.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
-function ob_start ($output_callback = null, $chunk_size = null, $erase = null) {}
+function ob_start ($output_callback = null, $chunk_size = null, $flags = PHP_OUTPUT_HANDLER_STDFLAGS) {}
 
 /**
  * Flush (send) the output buffer
  * @link https://php.net/manual/en/function.ob-flush.php
- * @return void 
- * @since 4.2.0
- * @since 5.0
+ * @return void
  */
 function ob_flush () {}
 
 /**
  * Clean (erase) the output buffer
  * @link https://php.net/manual/en/function.ob-clean.php
- * @return void 
- * @since 4.2.0
- * @since 5.0
+ * @return void
  */
 function ob_clean () {}
 
@@ -240,8 +222,6 @@ function ob_clean () {}
  * @return bool true on success or false on failure. Reasons for failure are first that you called the
  * function without an active buffer or that for some reason a buffer could
  * not be deleted (possible for special buffer).
- * @since 4.0
- * @since 5.0
  */
 function ob_end_flush () {}
 
@@ -251,8 +231,6 @@ function ob_end_flush () {}
  * @return bool true on success or false on failure. Reasons for failure are first that you called the
  * function without an active buffer or that for some reason a buffer could
  * not be deleted (possible for special buffer).
- * @since 4.0
- * @since 5.0
  */
 function ob_end_clean () {}
 
@@ -260,8 +238,6 @@ function ob_end_clean () {}
  * Flush the output buffer, return it as a string and turn off output buffering
  * @link https://php.net/manual/en/function.ob-get-flush.php
  * @return string|false the output buffer or false if no buffering is active.
- * @since 4.3.0
- * @since 5.0
  */
 function ob_get_flush () {}
 
@@ -270,8 +246,6 @@ function ob_get_flush () {}
  * @link https://php.net/manual/en/function.ob-get-clean.php
  * @return string|false the contents of the output buffer and end output buffering.
  * If output buffering isn't active then false is returned.
- * @since 4.3.0
- * @since 5.0
  */
 function ob_get_clean () {}
 
@@ -280,8 +254,6 @@ function ob_get_clean () {}
  * @link https://php.net/manual/en/function.ob-get-length.php
  * @return int|false the length of the output buffer contents or false if no
  * buffering is active.
- * @since 4.0.2
- * @since 5.0
  */
 function ob_get_length () {}
 
@@ -290,8 +262,6 @@ function ob_get_length () {}
  * @link https://php.net/manual/en/function.ob-get-level.php
  * @return int the level of nested output buffering handlers or zero if output
  * buffering is not active.
- * @since 4.2.0
- * @since 5.0
  */
 function ob_get_level () {}
 
@@ -305,60 +275,64 @@ function ob_get_level () {}
  * @return array If called without the full_status parameter
  * or with full_status = false a simple array
  * with the following elements is returned:
- * 2
- * [type] => 0
- * [status] => 0
- * [name] => URL-Rewriter
- * [del] => 1
- * )
- * ]]>
- * Simple ob_get_status results
- * KeyValue
- * levelOutput nesting level
- * typePHP_OUTPUT_HANDLER_INTERNAL (0) or PHP_OUTPUT_HANDLER_USER (1)
- * statusOne of PHP_OUTPUT_HANDLER_START (0), PHP_OUTPUT_HANDLER_CONT (1) or PHP_OUTPUT_HANDLER_END (2)
- * nameName of active output handler or ' default output handler' if none is set
- * delErase-flag as set by ob_start
- * </p>
- * <p>
- * If called with full_status = true an array
- * with one element for each active output buffer level is returned.
- * The output level is used as key of the top level array and each array
- * element itself is another array holding status information
- * on one active output level.
+ * <pre>
  * Array
  * (
- * [chunk_size] => 0
- * [size] => 40960
- * [block_size] => 10240
- * [type] => 1
- * [status] => 0
- * [name] => default output handler
- * [del] => 1
+ *     [level] => 2
+ *     [type] => 0
+ *     [status] => 0
+ *     [name] => URL-Rewriter
+ *     [del] => 1
  * )
- * [1] => Array
- * (
- * [chunk_size] => 0
- * [size] => 40960
- * [block_size] => 10240
- * [type] => 0
- * [buffer_size] => 0
- * [status] => 0
- * [name] => URL-Rewriter
- * [del] => 1
- * )
- * )
- * ]]>
- * </p>
+ * </pre>
+ * <table>
+ * <tr><th>Key</th><th>Value</th></tr>
+ * <tr><td>level</td><td>Output nesting level</td></tr>
+ * <tr><td>type</td><td><em>PHP_OUTPUT_HANDLER_INTERNAL (0)</em> or <em>PHP_OUTPUT_HANDLER_USER (1)</em></td></tr>
+ * <tr><td>status</td><td>One of <em>PHP_OUTPUT_HANDLER_START</em> (0), <em>PHP_OUTPUT_HANDLER_CONT</em> (1) or <em>PHP_OUTPUT_HANDLER_END</em> (2)</td></tr>
+ * <tr><td>name</td><td>Name of active output handler or &#039; default output handler&#039; if none is set</td></tr>
+ * <tr><td>del</td><td>Erase-flag as set by ob_start()</td></tr>
+ * </table>
  * <p>
- * The full output contains these additional elements:
- * Full ob_get_status results
- * KeyValue
- * chunk_sizeChunk size as set by ob_start
- * size...
- * blocksize...
- * @since 4.2.0
- * @since 5.0
+ * If called with full_status = TRUE an array with one element for each active output buffer
+ * level is returned. The output level is used as key of the top level array and each array
+ * element itself is another array holding status information on one active output level.
+ * </p>
+ * <pre>
+ * Array
+ * (
+ *     [0] => Array
+ *         (
+ *             [chunk_size] => 0
+ *             [size] => 40960
+ *             [block_size] => 10240
+ *             [type] => 1
+ *             [status] => 0
+ *             [name] => default output handler
+ *             [del] => 1
+ *         )
+ *
+ *     [1] => Array
+ *         (
+ *             [chunk_size] => 0
+ *             [size] => 40960
+ *             [block_size] => 10240
+ *             [type] => 0
+ *             [buffer_size] => 0
+ *             [status] => 0
+ *             [name] => URL-Rewriter
+ *             [del] => 1
+ *         )
+ *
+ * )
+ * </pre>
+ * <p> The full output contains these additional elements:</p>
+ * <table>
+ * <tr><th>Key</th><th>Value</th></tr>
+ * <tr><td>chunk_size</td><td>Chunk size as set by ob_start()</td></tr>
+ * <tr><td>size</td><td>...</td></tr>
+ * <tr><td>blocksize</td><td>...</td></tr>
+ * </table>
  */
 function ob_get_status ($full_status = null) {}
 
@@ -367,8 +341,6 @@ function ob_get_status ($full_status = null) {}
  * @link https://php.net/manual/en/function.ob-get-contents.php
  * @return string|false This will return the contents of the output buffer or false, if output
  * buffering isn't active.
- * @since 4.0
- * @since 5.0
  */
 function ob_get_contents () {}
 
@@ -378,9 +350,7 @@ function ob_get_contents () {}
  * @param int $flag [optional] <p>
  * 1 to turn implicit flushing on, 0 otherwise.
  * </p>
- * @return void 
- * @since 4.0
- * @since 5.0
+ * @return void
  */
 function ob_implicit_flush ($flag = 1) {}
 
@@ -392,8 +362,6 @@ function ob_implicit_flush ($flag = 1) {}
  * an anonymous function was used with ob_start,
  * ob_list_handlers will return "default output
  * handler".
- * @since 4.3.0
- * @since 5.0
  */
 function ob_list_handlers () {}
 
@@ -409,8 +377,6 @@ function ob_list_handlers () {}
  * see sort.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function ksort (array &$array, $sort_flags = null) {}
 
@@ -426,8 +392,6 @@ function ksort (array &$array, $sort_flags = null) {}
  * sort.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function krsort (array &$array, $sort_flags = null) {}
 
@@ -438,8 +402,6 @@ function krsort (array &$array, $sort_flags = null) {}
  * The input array.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function natsort (array &$array) {}
 
@@ -450,8 +412,6 @@ function natsort (array &$array) {}
  * The input array.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function natcasesort (array &$array) {}
 
@@ -467,8 +427,6 @@ function natcasesort (array &$array) {}
  * see sort.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function asort (array &$array, $sort_flags = null) {}
 
@@ -484,8 +442,6 @@ function asort (array &$array, $sort_flags = null) {}
  * sort.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function arsort (array &$array, $sort_flags = null) {}
 
@@ -504,8 +460,6 @@ function arsort (array &$array, $sort_flags = null) {}
  * SORT_REGULAR - compare items normally
  * (don't change types)
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function sort (array &$array, $sort_flags = null) {}
 
@@ -521,8 +475,6 @@ function sort (array &$array, $sort_flags = null) {}
  * sort.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function rsort (array &$array, $sort_flags = null) {}
 
@@ -538,8 +490,6 @@ function rsort (array &$array, $sort_flags = null) {}
  * respectively less than, equal to, or greater than the second.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function usort (array &$array, $cmp_function) {}
 
@@ -554,8 +504,6 @@ function usort (array &$array, $cmp_function) {}
  * examples of user-defined comparison functions.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function uasort (array &$array, $cmp_function) {}
 
@@ -577,8 +525,6 @@ function uasort (array &$array, $cmp_function) {}
  * second.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function uksort (array &$array, $cmp_function) {}
 
@@ -589,8 +535,6 @@ function uksort (array &$array, $cmp_function) {}
  * The array.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function shuffle (array &$array) {}
 
@@ -625,8 +569,6 @@ function shuffle (array &$array) {}
  * funcname.
  * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
 function array_walk (array &$array, $funcname, $userdata = null) {}
 
@@ -655,7 +597,6 @@ function array_walk (array &$array, $funcname, $userdata = null) {}
  * funcname.
  * </p>
  * @return bool true on success or false on failure.
- * @since 5.0
  */
 function array_walk_recursive (array &$input, $funcname, $userdata = null) {}
 
@@ -685,95 +626,86 @@ function array_walk_recursive (array &$input, $funcname, $userdata = null) {}
  * Caution: count may return 0 for a variable that isn't set,
  * but it may also return 0 for a variable that has been initialized with an
  * empty array. Use isset to test if a variable is set.
- * @since 4.0
- * @since 5.0
  */
 function count ($var, $mode = COUNT_NORMAL) {}
 
 /**
  * Set the internal pointer of an array to its last element
  * @link https://php.net/manual/en/function.end.php
- * @param array|object $array <p>
+ * @param array $array <p>
  * The array. This array is passed by reference because it is modified by
  * the function. This means you must pass it a real variable and not
  * a function returning an array because only actual variables may be
  * passed by reference.
  * </p>
  * @return mixed the value of the last element or false for empty array.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function end (array &$array) {}
 
 /**
  * Rewind the internal array pointer
  * @link https://php.net/manual/en/function.prev.php
- * @param array|object $array <p>
+ * @param array $array <p>
  * The input array.
  * </p>
  * @return mixed the array value in the previous place that's pointed to by
  * the internal array pointer, or false if there are no more
  * elements.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function prev (array &$array) {}
 
 /**
  * Advance the internal array pointer of an array
  * @link https://php.net/manual/en/function.next.php
- * @param array|object $array <p>
+ * @param array $array <p>
  * The array being affected.
  * </p>
  * @return mixed the array value in the next place that's pointed to by the
  * internal array pointer, or false if there are no more elements.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function next (array &$array) {}
 
 /**
  * Set the internal pointer of an array to its first element
  * @link https://php.net/manual/en/function.reset.php
- * @param array|object $array <p>
+ * @param array $array <p>
  * The input array.
  * </p>
  * @return mixed the value of the first array element, or false if the array is
  * empty.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function reset (array &$array) {}
 
 /**
  * Return the current element in an array
  * @link https://php.net/manual/en/function.current.php
- * @param array|object $array <p>
+ * @param array $array <p>
  * The array.
  * </p>
  * @return mixed The current function simply returns the
  * value of the array element that's currently being pointed to by the
  * internal pointer. It does not move the pointer in any way. If the
- * internal pointer points beyond the end of the elements list or the array is 
+ * internal pointer points beyond the end of the elements list or the array is
  * empty, current returns false.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function current (array $array) {}
 
 /**
  * Fetch a key from an array
  * @link https://php.net/manual/en/function.key.php
- * @param array|object $array <p>
+ * @param array $array <p>
  * The array.
  * </p>
  * @return int|string|null The key function simply returns the
  * key of the array element that's currently being pointed to by the
  * internal pointer. It does not move the pointer in any way. If the
- * internal pointer points beyond the end of the elements list or the array is 
+ * internal pointer points beyond the end of the elements list or the array is
  * empty, key returns &null;.
- * @since 4.0
- * @since 5.0
  */
 function key (array $array) {}
 
@@ -786,8 +718,6 @@ function key (array $array) {}
  * @param mixed $values [optional] any comparable value
  * @return mixed min returns the numerically lowest of the
  * parameter values.
- * @since 4.0
- * @since 5.0
  */
 function min ($value1, $value2 = null, ...$values) {}
 
@@ -800,8 +730,6 @@ function min ($value1, $value2 = null, ...$values) {}
  * @param mixed $values [optional] any comparable value
  * @return mixed max returns the numerically highest of the
  * parameter values, either within a arg array or two arguments.
- * @since 4.0
- * @since 5.0
  */
 function max ($value1, $value2 = null, ...$values) {}
 
@@ -826,8 +754,6 @@ function max ($value1, $value2 = null, ...$values) {}
  * </p>
  * @return bool true if needle is found in the array,
  * false otherwise.
- * @since 4.0
- * @since 5.0
  */
 function in_array ($needle, array $haystack, $strict = false) {}
 
@@ -858,8 +784,6 @@ function in_array ($needle, array $haystack, $strict = false) {}
  * more than once, the first matching key is returned. To return the keys for
  * all matching values, use array_keys with the optional
  * search_value parameter instead.
- * @since 4.0.5
- * @since 5.0
  */
 function array_search ($needle, array $haystack, $strict = null) {}
 
@@ -888,8 +812,6 @@ function array_search ($needle, array $haystack, $strict = null) {}
  * $_REQUEST, for example.
  * @return int the number of variables successfully imported into the symbol
  * table.
- * @since 4.0
- * @since 5.0
  */
 function extract (array $var_array, $extract_type = null, $prefix = null) {}
 
@@ -903,10 +825,8 @@ function extract (array $var_array, $extract_type = null, $prefix = null) {}
  * arrays of variable names inside it; compact
  * handles it recursively.
  * </p>
- * @param mixed $_ [optional] 
+ * @param mixed $_ [optional]
  * @return array the output array with all the variables added to it.
- * @since 4.0
- * @since 5.0
  */
 function compact ($varname, $_ = null) {}
 
@@ -924,8 +844,6 @@ function compact ($varname, $_ = null) {}
  * Value to use for filling
  * </p>
  * @return array the filled array
- * @since 4.2.0
- * @since 5.0
  */
 function array_fill ($start_index, $num, $value) {}
 
@@ -940,7 +858,6 @@ function array_fill ($start_index, $num, $value) {}
  * Value to use for filling
  * </p>
  * @return array the filled array
- * @since 5.2.0
  */
 function array_fill_keys (array $keys, $value) {}
 
@@ -961,36 +878,44 @@ function array_fill_keys (array $keys, $value) {}
  * </p>
  * @return array an array of elements from start to
  * end, inclusive.
- * @since 4.0
- * @since 5.0
  */
 function range ($start, $end, $step = 1) {}
 
 /**
  * Sort multiple or multi-dimensional arrays
  * @link https://php.net/manual/en/function.array-multisort.php
- * @param array $arr <p>
+ * @param array $array1 <p>
  * An array being sorted.
  * </p>
- * @param mixed $arg [optional] <p>
- * Optionally another array, or sort options for the
- * previous array argument: 
- * SORT_ASC, 
- * SORT_DESC, 
- * SORT_REGULAR,
- * SORT_NUMERIC,
- * SORT_STRING.
+ * @param array|int $array1_sort_order [optional] <p>
+ * The order used to sort the previous array argument.
+ * Either SORT_ASC to sort ascendingly or SORT_DESC to sort descendingly.
+ * This argument can be swapped with array1_sort_flags or omitted entirely, in which case SORT_ASC is assumed.
  * </p>
- * @param mixed $arg [optional] 
- * @param mixed $_ [optional] 
+ * @param array|int $array1_sort_flags [optional] <p>
+ * Sort options for the previous array argument:
+ * Sorting type flags:
+ * SORT_REGULAR - compare items normally (don't change types)
+ * SORT_NUMERIC - compare items numerically
+ * SORT_STRING - compare items as strings
+ * SORT_LOCALE_STRING - compare items as strings, based on the current locale. It uses the locale, which can be changed using setlocale()
+ * SORT_NATURAL - compare items as strings using "natural ordering" like natsort()
+ * SORT_FLAG_CASE - can be combined (bitwise OR) with SORT_STRING or SORT_NATURAL to sort strings case-insensitively
+ * This argument can be swapped with array1_sort_order or omitted entirely, in which case SORT_REGULAR is assumed.
+ * </p>
+ * @param array|int $_ [optional] <p>
+ * More arrays, optionally followed by sort order and flags.
+ * Only elements corresponding to equivalent elements in previous arrays are compared.
+ * In other words, the sort is lexicographical.
+ * </p>
  * @return bool true on success or false on failure.
- * @since 4.0
- * @since 5.0
  */
-function array_multisort (array &$arr, $arg = null, $arg = null, $_ = null) {}
+function array_multisort (array &$array1, $array1_sort_order = null, $array1_sort_flags = null, $_ = null) {}
 
 /**
  * Push elements onto the end of array
+ * Since 7.3.0 this function can be called with only one parameter.
+ * For earlier versions at least two parameters are required.
  * @link https://php.net/manual/en/function.array-push.php
  * @param array $array <p>
  * The input array.
@@ -999,7 +924,6 @@ function array_multisort (array &$arr, $arg = null, $arg = null, $_ = null) {}
  * The pushed variables.
  * </p>
  * @return int the number of elements in the array.
- * @since 7.3
  */
 function array_push (array &$array, ...$vars) {}
 
@@ -1012,8 +936,7 @@ function array_push (array &$array, ...$vars) {}
  * @return mixed the last value of array.
  * If array is empty (or is not an array),
  * &null; will be returned.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function array_pop (array &$array) {}
 
@@ -1025,13 +948,14 @@ function array_pop (array &$array) {}
  * </p>
  * @return mixed the shifted value, or &null; if array is
  * empty or is not an array.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function array_shift (array &$array) {}
 
 /**
  * Prepend elements to the beginning of an array
+ * Since 7.3.0 this function can be called with only one parameter.
+ * For earlier versions at least two parameters are required.
  * @link https://php.net/manual/en/function.array-unshift.php
  * @param array $array <p>
  * The input array.
@@ -1040,7 +964,6 @@ function array_shift (array &$array) {}
  * The prepended variables.
  * </p>
  * @return int the number of elements in the array.
- * @since 7.3
  */
 function array_unshift (array &$array, ...$vars) {}
 
@@ -1087,8 +1010,6 @@ function array_unshift (array &$array, ...$vars) {}
  * around it, unless the element is an array itself.
  * </p>
  * @return array the array consisting of the extracted elements.
- * @since 4.0
- * @since 5.0
  */
 function array_splice (array &$input, $offset, $length = null, $replacement = null) {}
 
@@ -1119,23 +1040,16 @@ function array_splice (array &$input, $offset, $length = null, $replacement = nu
  * preserve_keys to true.
  * </p>
  * @return array the slice.
- * @since 4.0
- * @since 5.0
+ * @meta
  */
 function array_slice (array $array, $offset, $length = null, $preserve_keys = false) {}
 
 /**
  * Merge one or more arrays
  * @link https://php.net/manual/en/function.array-merge.php
- * @param array $array1 <p>
+ * @param array ...$arrays <p>
  * Initial array to merge.
  * </p>
- * @param array $array2 [optional] 
- * @param array $_ [optional] 
  * @return array the resulting array.
- * @since 4.0
- * @since 5.0
  */
-function array_merge (array $array1, array $array2 = null, array $_ = null) {}
-
-?>
+function array_merge (array ...$arrays) {}

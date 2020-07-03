@@ -28,7 +28,7 @@ function hash ($algo, $data, $raw_output = false) {}
  * @param string $known_string <p>The string of known length to compare against</p>
  * @param string $user_string <p>The user-supplied string</p>
  * @return bool <p>Returns <b>TRUE</b> when the two strings are equal, <b>FALSE</b> otherwise.</p>
- * @since 5.6.0
+ * @since 5.6
  */
 function hash_equals($known_string, $user_string) {}
 
@@ -57,7 +57,8 @@ function hash_file ($algo, $filename, $raw_output = false) {}
  * Generate a keyed hash value using the HMAC method
  * @link https://php.net/manual/en/function.hash-hmac.php
  * @param string $algo <p>
- * Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..) See <b>hash_algos</b> for a list of supported algorithms.
+ * Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..) See <b>hash_algos</b> for a list of supported algorithms.<br/>
+ * Since 7.2.0 usage of non-cryptographic hash functions (adler32, crc32, crc32b, fnv132, fnv1a32, fnv164, fnv1a64, joaat) was disabled.
  * </p>
  * @param string $data <p>
  * Message to be hashed.
@@ -80,7 +81,8 @@ function hash_hmac ($algo, $data, $key, $raw_output = false) {}
  * Generate a keyed hash value using the HMAC method and the contents of a given file
  * @link https://php.net/manual/en/function.hash-hmac-file.php
  * @param string $algo <p>
- * Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..) See <b>hash_algos</b> for a list of supported algorithms.
+ * Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..) See <b>hash_algos</b> for a list of supported algorithms.<br/>
+ * Since 7.2.0 usage of non-cryptographic hash functions (adler32, crc32, crc32b, fnv132, fnv1a32, fnv164, fnv1a64, joaat) was disabled.
  * </p>
  * @param string $filename <p>
  * URL describing location of file to be hashed; Supports fopen wrappers.
@@ -103,7 +105,8 @@ function hash_hmac_file ($algo, $filename, $key, $raw_output = false) {}
  * Initialize an incremental hashing context
  * @link https://php.net/manual/en/function.hash-init.php
  * @param string $algo <p>
- * Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..). For a list of supported algorithms see <b>hash_algos</b>.
+ * Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..). For a list of supported algorithms see <b>hash_algos</b>.<br/>
+ * Since 7.2.0 usage of non-cryptographic hash functions (adler32, crc32, crc32b, fnv132, fnv1a32, fnv164, fnv1a64, joaat) was disabled.
  * </p>
  * @param int $options [optional] <p>
  * Optional settings for hash generation, currently supports only one option:
@@ -194,7 +197,6 @@ function hash_final ($context, $raw_output = false) {}
  * Hashing context returned by <b>hash_init</b>.
  * </p>
  * @return resource a copy of Hashing Context resource.
- * @since 5.3.0
  */
 function hash_copy ($context) {}
 
@@ -239,18 +241,33 @@ function hash_hmac_algos() {}
 /**
  * Generate a PBKDF2 key derivation of a supplied password
  * @link https://php.net/manual/en/function.hash-pbkdf2.php
- * @param $algo
- * @param $password
- * @param $salt
- * @param $iterations
- * @param $length [optional]
- * @param $raw_output [optional]
+ * @param string $algo <p>
+ * Name of selected hashing algorithm (i.e. "md5", "sha256", "haval160,4", etc..) See <b>hash_algos</b> for a list of supported algorithms.<br/>
+ * Since 7.2.0 usage of non-cryptographic hash functions (adler32, crc32, crc32b, fnv132, fnv1a32, fnv164, fnv1a64, joaat) was disabled.
+ * </p>
+ * @param string $password <p>
+ * The password to use for the derivation.
+ * </p>
+ * @param string $salt <p>
+ * The salt to use for the derivation. This value should be generated randomly.
+ * </p>
+ * @param int $iterations <p>
+ * The number of internal iterations to perform for the derivation.
+ * </p>
+ * @param int $length [optional] <p>
+ * The length of the output string. If raw_output is TRUE this corresponds to the byte-length of the derived key,
+ * if raw_output is FALSE this corresponds to twice the byte-length of the derived key (as every byte of the key is returned as two hexits). <br/>
+ * If 0 is passed, the entire output of the supplied algorithm is used.
+ * </p>
+ * @param bool $raw_output [optional] <p>
+ * When set to TRUE, outputs raw binary data. FALSE outputs lowercase hexits.
+ * </p>
  * @return mixed a string containing the derived key as lowercase hexits unless
  * <i>raw_output</i> is set to <b>TRUE</b> in which case the raw
  * binary representation of the derived key is returned.
- * @since 5.5.0
+ * @since 5.5
  */
-function hash_pbkdf2 ($algo, $password, $salt, $iterations, $length = 0, $raw_output = FALSE) {}
+function hash_pbkdf2 ($algo, $password, $salt, $iterations, $length = 0, $raw_output = false) {}
 
 /**
  * Generates a key
@@ -273,8 +290,6 @@ function hash_pbkdf2 ($algo, $password, $salt, $iterations, $length = 0, $raw_ou
  * The key length, in bytes.
  * </p>
  * @return string|false the generated key as a string, or <b>FALSE</b> on error.
- * @since 4.0.4
- * @since 5.0
  */
 function mhash_keygen_s2k ($hash, $password, $salt, $bytes) {}
 
@@ -286,8 +301,6 @@ function mhash_keygen_s2k ($hash, $password, $salt, $bytes) {}
  * </p>
  * @return int|false the size in bytes or <b>FALSE</b>, if the <i>hash</i>
  * does not exist.
- * @since 4.0
- * @since 5.0
  */
 function mhash_get_block_size ($hash) {}
 
@@ -298,8 +311,6 @@ function mhash_get_block_size ($hash) {}
  * The hash ID. One of the <b>MHASH_hashname</b> constants.
  * </p>
  * @return string|false the name of the hash or <b>FALSE</b>, if the hash does not exist.
- * @since 4.0
- * @since 5.0
  */
 function mhash_get_hash_name ($hash) {}
 
@@ -308,8 +319,6 @@ function mhash_get_hash_name ($hash) {}
  * @link https://php.net/manual/en/function.mhash-count.php
  * @return int the highest available hash ID. Hashes are numbered from 0 to this
  * hash ID.
- * @since 4.0
- * @since 5.0
  */
 function mhash_count () {}
 
@@ -330,8 +339,6 @@ function mhash_count () {}
  * </p>
  * @return string the resulting hash (also called digest) or HMAC as a string, or
  * <b>FALSE</b> on error.
- * @since 4.0
- * @since 5.0
  */
 function mhash ($hash, $data, $key = null) {}
 
@@ -344,6 +351,10 @@ function mhash ($hash, $data, $key = null) {}
  */
 define ('HASH_HMAC', 1);
 define ('MHASH_CRC32', 0);
+/**
+ * @since 7.4
+ */
+define ('MHASH_CRC32C', 34);
 define ('MHASH_MD5', 1);
 define ('MHASH_SHA1', 2);
 define ('MHASH_HAVAL256', 3);

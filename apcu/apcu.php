@@ -446,7 +446,7 @@ function apcu_fetch($key, &$success = null){}
 /**
  * Removes a stored variable from the cache
  * @link https://php.net/manual/en/function.apcu-delete.php
- * @param string|string[]|APCUIterator $key The key used to store the value (with apcu_store()).
+ * @param string|string[]|APCuIterator $key The key used to store the value (with apcu_store()).
  * @return bool|string[] Returns TRUE on success or FALSE on failure. For array of keys returns list of failed keys.
  */
 function apcu_delete($key){}
@@ -484,20 +484,28 @@ function apcu_exists($keys){}
  * @link https://php.net/manual/en/function.apcu-inc.php
  * @param string $key The key of the value being increased.
  * @param int $step The step, or value to increase.
+ * @param int $ttl Time To Live; store var in the cache for ttl seconds. After the ttl has passed,
+ * the stored variable will be expunged from the cache (on the next request). If no ttl is supplied
+ * (or if the ttl is 0), the value will persist until it is removed from the cache manually,
+ * or otherwise fails to exist in the cache (clear, restart, etc.).
  * @param bool $success Optionally pass the success or fail boolean value to this referenced variable.
  * @return int|false Returns the current value of key's value on success, or FALSE on failure.
  */
-function apcu_inc($key, $step = 1, &$success = null){}
+function apcu_inc($key, $step = 1, &$success = null, $ttl = 0){}
 
 /**
  * Decrease a stored number
  * @link https://php.net/manual/en/function.apcu-dec.php
  * @param string $key The key of the value being decreased.
  * @param int $step The step, or value to decrease.
+ * @param int $ttl Time To Live; store var in the cache for ttl seconds. After the ttl has passed,
+ * the stored variable will be expunged from the cache (on the next request). If no ttl is supplied
+ * (or if the ttl is 0), the value will persist until it is removed from the cache manually,
+ * or otherwise fails to exist in the cache (clear, restart, etc.).
  * @param bool $success Optionally pass the success or fail boolean value to this referenced variable.
  * @return int|false Returns the current value of key's value on success, or FALSE on failure.
  */
-function apcu_dec($key, $step = 1, &$success = null){}
+function apcu_dec($key, $step = 1, &$success = null, $ttl = 0){}
 
 /**
  * Updates an old value with a new value
@@ -547,7 +555,7 @@ function apcu_entry($key, callable $generator, $ttl = 0){}
  * Retrieves cached information from APCu's data store
  *
  * @link https://php.net/manual/en/function.apcu-cache-info.php
- * 
+ *
  * @param bool $limited If limited is TRUE, the return value will exclude the individual list of cache entries.
  * This is useful when trying to optimize calls for statistics gathering.
  * @return array|false Array of cached data (and meta-data) or FALSE on failure
@@ -555,9 +563,23 @@ function apcu_entry($key, callable $generator, $ttl = 0){}
 function apcu_cache_info($limited = false){}
 
 /**
- * The APCUIterator class
+ * Whether APCu is usable in the current environment
  *
- * The APCUIterator class makes it easier to iterate over large APCu caches.
+ * @link https://www.php.net/manual/en/function.apcu-enabled.php
+ *
+ * @return bool
+ */
+function apcu_enabled(){}
+
+/**
+ * @param string $key
+ */
+function apcu_key_info($key){}
+
+/**
+ * The APCuIterator class
+ *
+ * The APCuIterator class makes it easier to iterate over large APCu caches.
  * This is helpful as it allows iterating over large caches in steps, while grabbing a defined number
  * of entries per lock instance, so it frees the cache locks for other activities rather than hold up
  * the entire cache to grab 100 (the default) entries. Also, using regular expression matching is more
@@ -566,10 +588,10 @@ function apcu_cache_info($limited = false){}
  * @link https://php.net/manual/en/class.apcuiterator.php
  * @since APCu 5.0.0
  */
-class APCUIterator implements Iterator
+class APCuIterator implements Iterator
 {
 	/**
-	 * Constructs an APCUIterator iterator object
+	 * Constructs an APCuIterator iterator object
 	 * @link https://php.net/manual/en/apcuiterator.construct.php
 	 * @param string|string[]|null $search A PCRE regular expression that matches against APCu key names,
 	 * either as a string for a single regular expression, or as an array of regular expressions.
@@ -594,7 +616,7 @@ class APCUIterator implements Iterator
 	public function valid(){}
 
 	/**
-	 * Gets the current item from the APCUIterator stack
+	 * Gets the current item from the APCuIterator stack
 	 * @link https://php.net/manual/en/apcuiterator.current.php
 	 * @return mixed Returns the current item on success, or FALSE if no more items or exist, or on failure.
 	 */

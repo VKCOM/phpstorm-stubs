@@ -11,6 +11,7 @@ define('YAR_CLIENT_PROTOCOL_HTTP', 1);
 define('YAR_OPT_PACKAGER', 1);
 define('YAR_OPT_TIMEOUT', 4);
 define('YAR_OPT_CONNECT_TIMEOUT', 8);
+define('YAR_OPT_PERSISTENT', 2);
 /**
  * @since 2.0.4
  */
@@ -25,10 +26,13 @@ define('YAR_ERR_PROTOCOL', 2);
 define('YAR_ERR_PACKAGER', 1);
 define('YAR_ERR_EXCEPTION', 64);
 
+define('YAR_CLIENT_PROTOCOL_TCP', 2);
+define('YAR_CLIENT_PROTOCOL_UNIX', 4);
+
 /**
  * Class Yar_Server
  * Date 2018/6/9 下午3:02
- * @Author weizhimiao001@lianjia.com
+ * @author weizhimiao001@lianjia.com
  * @link https://secure.php.net/manual/en/class.yar-server.php
  */
 class Yar_Server {
@@ -141,7 +145,7 @@ class Yar_Concurrent_Client {
 /**
  * Class Yar_Server_Exception
  * Date 2018/6/9 下午3:06
- * @Author weizhimiao001@lianjia.com
+ * @author weizhimiao001@lianjia.com
  * @link https://secure.php.net/manual/en/class.yar-server-exception.php
  */
 class Yar_Server_Exception extends Exception {
@@ -161,7 +165,7 @@ class Yar_Server_Exception extends Exception {
 /**
  * Class Yar_Client_Exception
  * Date 2018/6/9 下午3:05
- * @Author weizhimiao001@lianjia.com
+ * @author weizhimiao001@lianjia.com
  * @link https://secure.php.net/manual/en/class.yar-client-exception.php
  */
 class Yar_Client_Exception extends Exception {

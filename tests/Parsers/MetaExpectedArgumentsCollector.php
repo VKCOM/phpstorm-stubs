@@ -19,17 +19,17 @@ class MetaExpectedArgumentsCollector extends NodeVisitorAbstract
     /**
      * @var ExpectedFunctionArgumentsInfo[]
      */
-    private $expectedArgumentsInfos;
+    private array $expectedArgumentsInfos;
     /**
      * @var String[]
      */
-    private $registeredArgumentsSet;
+    private array $registeredArgumentsSet;
 
     public function __construct()
     {
         $this->expectedArgumentsInfos = array();
         $this->registeredArgumentsSet = array();
-        StubParser::processStubs($this, function (SplFileInfo $file) {
+        StubParser::processStubs($this, null, function (SplFileInfo $file) {
             return $file->getFilename() === '.phpstorm.meta.php';
         });
     }

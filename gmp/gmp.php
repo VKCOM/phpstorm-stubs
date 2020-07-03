@@ -20,8 +20,6 @@
  * octal is assumed, otherwise decimal is assumed.
  * </p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_init ($number, $base = 0) {}
 
@@ -32,8 +30,6 @@ function gmp_init ($number, $base = 0) {}
  * A GMP number.
  * </p>
  * @return int An integer value of <i>gmpnumber</i>.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_intval ($gmpnumber) {}
 
@@ -60,8 +56,6 @@ function gmp_random_seed ($seed ) {}
  * Allowed values for the base are from 2 to 62 and -2 to -36.
  * </p>
  * @return string The number, as a string.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_strval ($gmpnumber, $base = 10) {}
 
@@ -79,8 +73,6 @@ function gmp_strval ($gmpnumber, $base = 10) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number representing the sum of the arguments.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_add ($a, $b) {}
 
@@ -98,8 +90,6 @@ function gmp_add ($a, $b) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_sub ($a, $b) {}
 
@@ -117,8 +107,6 @@ function gmp_sub ($a, $b) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_mul ($a, $b) {}
 
@@ -143,8 +131,6 @@ function gmp_mul ($a, $b) {}
  * element being [n/d] (the integer result of the
  * division) and the second being (n - [n/d] * d)
  * (the remainder of the division).
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_div_qr ($n, $d, $round = GMP_ROUND_ZERO) {}
 
@@ -168,8 +154,6 @@ function gmp_div_qr ($n, $d, $round = GMP_ROUND_ZERO) {}
  * <b>GMP_ROUND_ZERO</b>: The result is truncated
  * towards 0.
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_div_q ($a, $b, $round = GMP_ROUND_ZERO) {}
 
@@ -191,8 +175,6 @@ function gmp_div_q ($a, $b, $round = GMP_ROUND_ZERO) {}
  * of the <i>round</i> argument.
  * </p>
  * @return resource|GMP The remainder, as a GMP number.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_div_r ($n, $d, $round = GMP_ROUND_ZERO) {}
 
@@ -216,8 +198,6 @@ function gmp_div_r ($n, $d, $round = GMP_ROUND_ZERO) {}
  * <b>GMP_ROUND_ZERO</b>: The result is truncated
  * towards 0.
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_div ($a, $b, $round = GMP_ROUND_ZERO) {}
 
@@ -232,8 +212,6 @@ function gmp_div ($a, $b, $round = GMP_ROUND_ZERO) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_mod ($n, $d) {}
 
@@ -251,8 +229,6 @@ function gmp_mod ($n, $d) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_divexact ($n, $d) {}
 
@@ -262,8 +238,6 @@ function gmp_divexact ($n, $d) {}
  * @param resource|string|GMP $a It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP -<i>a</i>, as a GMP number.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_neg ($a) {}
 
@@ -273,8 +247,6 @@ function gmp_neg ($a) {}
  * @param resource|string|GMP $a It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP the absolute value of <i>a</i>, as a GMP number.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_abs ($a) {}
 
@@ -287,8 +259,6 @@ function gmp_abs ($a) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_fact ($a) {}
 
@@ -298,8 +268,6 @@ function gmp_fact ($a) {}
  * @param resource|string|GMP $a It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP The integer portion of the square root, as a GMP number.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_sqrt ($a) {}
 
@@ -315,8 +283,6 @@ function gmp_sqrt ($a) {}
  * <i>a</i> and the second is the remainder
  * (i.e., the difference between <i>a</i> and the
  * first element squared).
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_sqrtrem ($a) {}
 
@@ -333,8 +299,6 @@ function gmp_sqrtrem ($a) {}
  * </p>
  * @return resource|GMP The new (raised) number, as a GMP number. The case of
  * 0^0 yields 1.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_pow ($base, $exp) {}
 
@@ -357,8 +321,6 @@ function gmp_pow ($base, $exp) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP The new (raised) number, as a GMP number.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_powm ($base, $exp, $mod) {}
 
@@ -372,8 +334,6 @@ function gmp_powm ($base, $exp, $mod) {}
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return bool <b>TRUE</b> if <i>a</i> is a perfect square,
  * <b>FALSE</b> otherwise.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_perfect_square ($a) {}
 
@@ -397,8 +357,6 @@ function gmp_perfect_square ($a) {}
  * definitely not prime. If it returns 1, then
  * <i>a</i> is "probably" prime. If it returns 2,
  * then <i>a</i> is surely prime.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_prob_prime ($a, $reps = 10) {}
 
@@ -430,8 +388,6 @@ function gmp_random_range(GMP $min, GMP $max) {}
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A positive GMP number that divides into both
  * <i>a</i> and <i>b</i>.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_gcd ($a, $b) {}
 
@@ -443,8 +399,6 @@ function gmp_gcd ($a, $b) {}
  * @param resource|string|GMP $b It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return array An array of GMP numbers.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_gcdext ($a, $b) {}
 
@@ -456,8 +410,6 @@ function gmp_gcdext ($a, $b) {}
  * @param resource|string|GMP $b It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number on success or <b>FALSE</b> if an inverse does not exist.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_invert ($a, $b) {}
 
@@ -472,8 +424,6 @@ function gmp_invert ($a, $b) {}
  * Should be odd and must be positive.
  * </p>
  * @return int A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_jacobi ($a, $p) {}
 
@@ -488,8 +438,6 @@ function gmp_jacobi ($a, $p) {}
  * Should be odd and must be positive.
  * </p>
  * @return int A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_legendre ($a, $p) {}
 
@@ -503,8 +451,6 @@ function gmp_legendre ($a, $p) {}
  * @return int a positive value if a &gt; b, zero if
  * a = b and a negative value if a &lt;
  * b.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_cmp ($a, $b) {}
 
@@ -516,8 +462,6 @@ function gmp_cmp ($a, $b) {}
  * @return int 1 if <i>a</i> is positive,
  * -1 if <i>a</i> is negative,
  * and 0 if <i>a</i> is zero.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_sign ($a) {}
 
@@ -530,8 +474,7 @@ function gmp_sign ($a) {}
  * It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A random GMP number.
- * @since 4.0.4
- * @since 5.0
+ * @deprecated 7.2 Use {@see gmp_random_bits()} or {@see gmp_random_range()} instead.
  */
 function gmp_random ($limiter = 20) {}
 
@@ -543,8 +486,6 @@ function gmp_random ($limiter = 20) {}
  * @param resource|string|GMP $b It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number representing the bitwise AND comparison.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_and ($a, $b) {}
 
@@ -556,8 +497,6 @@ function gmp_and ($a, $b) {}
  * @param resource|string|GMP $b It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_or ($a, $b) {}
 
@@ -567,8 +506,6 @@ function gmp_or ($a, $b) {}
  * @param resource|string|GMP $a It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP the one's complement of <i>a</i>, as a GMP number.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_com ($a) {}
 
@@ -580,8 +517,6 @@ function gmp_com ($a) {}
  * @param resource|string|GMP $b It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource|GMP A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_xor ($a, $b) {}
 
@@ -601,8 +536,6 @@ function gmp_xor ($a, $b) {}
  * 1. Index starts at 0.
  * </p>
  * @return void A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_setbit (&$a, $index, $set_clear = true) {}
 
@@ -614,8 +547,6 @@ function gmp_setbit (&$a, $index, $set_clear = true) {}
  * @param int $index It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return void A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_clrbit (&$a, $index) {}
 
@@ -632,8 +563,6 @@ function gmp_clrbit (&$a, $index) {}
  * </p>
  * @return int the index of the found bit, as an integer. The
  * index starts from 0.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_scan0 ($a, $start) {}
 
@@ -650,8 +579,6 @@ function gmp_scan0 ($a, $start) {}
  * </p>
  * @return int the index of the found bit, as an integer.
  * If no set bit is found, -1 is returned.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_scan1 ($a, $start) {}
 
@@ -664,7 +591,6 @@ function gmp_scan1 ($a, $start) {}
  * The bit to test
  * </p>
  * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
- * @since 5.3.0
  */
 function gmp_testbit ($a, $index) {}
 
@@ -674,8 +600,6 @@ function gmp_testbit ($a, $index) {}
  * @param resource|string|GMP $a It can be either a GMP number resource, or a
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return int The population count of <i>a</i>, as an integer.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_popcount ($a) {}
 
@@ -693,8 +617,6 @@ function gmp_popcount ($a) {}
  * It should be positive.
  * </p>
  * @return int A GMP number resource.
- * @since 4.0.4
- * @since 5.0
  */
 function gmp_hamdist ($a, $b) {}
 
@@ -729,7 +651,7 @@ function gmp_export (GMP $gmpnumber, $word_size = 1, $options = GMP_MSW_FIRST | 
  * and later, or a numeric string provided that it is possible to convert the latter to a number.</p>
  * @param integer $nth The positive root to take of a.
  * @return GMP The integer component of the resultant root, as a GMP number.
- * @since 5.6.0
+ * @since 5.6
  */
 function gmp_root (GMP $a, $nth) {}
 
@@ -741,7 +663,7 @@ function gmp_root (GMP $a, $nth) {}
  * @param integer $nth The positive root to take of a.
  * @return array|GMP[] A two element array, where the first element is the integer component of
  * the root, and the second element is the remainder, both represented as GMP numbers.</p>
- * @since 5.6.0
+ * @since 5.6
  */
 function gmp_rootrem (GMP $a, $nth) {}
 
@@ -752,9 +674,59 @@ function gmp_rootrem (GMP $a, $nth) {}
  * numeric string given that it is possible to convert the latter to a number.</p>
  * @return resource Return the next prime number greater than <i>a</i>,
  * as a GMP number.
- * @since 5.2.0
  */
 function gmp_nextprime ($a) {}
+
+/**
+ * Calculates binomial coefficient
+ *
+ * @link https://www.php.net/manual/en/function.gmp-binomial.php
+ *
+ * @param GMP|string|float|int $a
+ * @param int $b
+ * @return GMP|false
+ *
+ * @since 7.3
+ */
+function gmp_binomial($a, $b) {}
+
+/**
+ * Computes the Kronecker symbol
+ *
+ * @link https://www.php.net/manual/en/function.gmp-kronecker.php
+ *
+ * @param GMP|string|float|int $a
+ * @param GMP|string|float|int $b
+ * @return int
+ *
+ * @since 7.3
+ */
+function gmp_kronecker($a, $b) {}
+
+/**
+ * Computes the least common multiple of A and B
+ *
+ * @link https://www.php.net/manual/en/function.gmp-lcm.php
+ *
+ * @param GMP|string|float|int $a
+ * @param GMP|string|float|int $b
+ * @return GMP
+ *
+ * @since 7.3
+ */
+function gmp_lcm($a, $b) {}
+
+/**
+ * Perfect power check
+ *
+ * @link https://www.php.net/manual/en/function.gmp-perfect-power.php
+ *
+ * @param GMP|string|float|int $a
+ * @return bool
+ *
+ * @since 7.3
+ */
+function gmp_perfect_power($a) {}
 
 define ('GMP_ROUND_ZERO', 0);
 define ('GMP_ROUND_PLUSINF', 1);
@@ -771,13 +743,14 @@ define ('GMP_NATIVE_ENDIAN', 16);
  */
 define ('GMP_VERSION', "");
 
+define ('GMP_MPIR_VERSION', '3.0.0');
+
 class GMP implements Serializable {
 
     /**
      * String representation of object
      * @link https://php.net/manual/en/serializable.serialize.php
      * @return string the string representation of the object or null
-     * @since 5.1.0
      */
     public function serialize() {}
 
@@ -788,7 +761,6 @@ class GMP implements Serializable {
      * The string representation of the object.
      * </p>
      * @return void
-     * @since 5.1.0
      */
     public function unserialize($serialized) {}
 }

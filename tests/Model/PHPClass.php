@@ -3,17 +3,19 @@ declare(strict_types=1);
 
 namespace StubTests\Model;
 
+use phpDocumentor\Reflection\DocBlock\Tags\PropertyRead;
+use phpDocumentor\Reflection\DocBlockFactory;
 use PhpParser\Node\Stmt\Class_;
 use ReflectionClass;
-use ReflectionClassConstant;
-use ReflectionException;
-use ReflectionMethod;
 use stdClass;
 
 class PHPClass extends BasePHPClass
 {
+    /** @var false|string */
     public $parentClass;
-    public $interfaces = [];
+    public array $interfaces = [];
+    /** @var PHPProperty[] */
+    public array $properties = [];
 
     /**
      * @param ReflectionClass $clazz
@@ -21,32 +23,32 @@ class PHPClass extends BasePHPClass
      */
     public function readObjectFromReflection($clazz): self
     {
-        try {
-            $reflectionClass = new ReflectionClass($clazz);
-            $this->name = $reflectionClass->getName();
-            $parentClass = $reflectionClass->getParentClass();
-            if ($parentClass !== false) {
-                $this->parentClass = $reflectionClass->getParentClass()->getName();
-            }
-            $this->interfaces = $reflectionClass->getInterfaceNames();
+        $this->name = $clazz->getName();
+        $parent = $clazz->getParentClass();
+        if ($parent !== false) {
+            $this->parentClass = $parent->getName();
+        }
+        $this->interfaces = $clazz->getInterfaceNames();
 
-            /**@var ReflectionMethod $method */
-            foreach ($reflectionClass->getMethods() as $method) {
-                if ($method->getDeclaringClass()->getName() !== $this->name) {
-                    continue;
-                }
-                $this->methods[$method->name] = (new PHPMethod())->readObjectFromReflection($method);
+        foreach ($clazz->getMethods() as $method) {
+            if ($method->getDeclaringClass()->getName() !== $this->name) {
+                continue;
             }
+            $this->methods[$method->name] = (new PHPMethod())->readObjectFromReflection($method);
+        }
 
-            /**@var ReflectionClassConstant $constant */
-            foreach ($reflectionClass->getReflectionConstants() as $constant) {
-                if ($constant->getDeclaringClass()->getName() !== $this->name) {
-                    continue;
-                }
-                $this->constants[$constant->name] = (new PHPConst())->readObjectFromReflection($constant);
+        foreach ($clazz->getReflectionConstants() as $constant) {
+            if ($constant->getDeclaringClass()->getName() !== $this->name) {
+                continue;
             }
-        } catch (ReflectionException $ex) {
-            $this->parseError = $ex;
+            $this->constants[$constant->name] = (new PHPConst())->readObjectFromReflection($constant);
+        }
+
+        foreach ($clazz->getProperties() as $property) {
+            if ($property->getDeclaringClass()->getName() !== $this->name) {
+                continue;
+            }
+            $this->properties[$property->name] = (new PHPProperty())->readObjectFromReflection($property);
         }
         return $this;
     }
@@ -58,7 +60,7 @@ class PHPClass extends BasePHPClass
     public function readObjectFromStubNode($node): self
     {
         $this->name = $this->getFQN($node);
-        $this->collectLinks($node);
+        $this->collectTags($node);
         if (!empty($node->extends)) {
             $this->parentClass = '';
             foreach ($node->extends->parts as $part) {
@@ -75,6 +77,30 @@ class PHPClass extends BasePHPClass
                 $this->interfaces[] = ltrim($interfaceFQN, "\\");
             }
         }
+        foreach ($node->getProperties() as $property) {
+            $propertyName = $property->props[0]->name->name;
+            $this->properties[$propertyName] = (new PHPProperty($this->name))->readObjectFromStubNode($property);
+        }
+        if ($node->getDocComment() !== null) {
+            $docBlock = DocBlockFactory::createInstance()->create($node->getDocComment()->getText());
+            /** @var PropertyRead[] $properties */
+            $properties = array_merge($docBlock->getTagsByName("property-read"),
+                $docBlock->getTagsByName("property"));
+            foreach ($properties as $property) {
+                $propertyName = $property->getVariableName();
+                assert($propertyName !== "", "@property name is empty in class $this->name");
+                $newProperty = new PHPProperty($this->name);
+                $newProperty->is_static = false;
+                $newProperty->access = "public";
+                $newProperty->name = $propertyName;
+                $newProperty->parentName = $this->name;
+                $newProperty->type = "" . $property->getType();
+                assert(!array_key_exists($propertyName, $this->properties),
+                    "Property '$propertyName' is already declared in class '$this->name'");
+                $this->properties[$propertyName] = $newProperty;
+            }
+        }
+
 
         return $this;
     }

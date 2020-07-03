@@ -105,7 +105,7 @@
  * <td>false</td>
  * </tr>
  * </table>
- * ok: the second call will be successfull.
+ * ok: the second call will be successful.
  * wait: the second call waits until <b>dba_close</b> is called for the first.
  * false: the second call returns false.
  * illegal: you must not mix "l" and "d" modifiers for <i>mode</i> parameter.
@@ -117,9 +117,7 @@
  * can act on behalf of them.
  * </p>
  * @param mixed $_ [optional]
- * @return resource a positive handle on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
+ * @return resource|false a positive handle on success or <b>FALSE</b> on failure.
  */
 function dba_open ($path, $mode, $handler = null, $_ = null) {}
 
@@ -142,9 +140,7 @@ function dba_open ($path, $mode, $handler = null, $_ = null) {}
  * can act on behalf of them.
  * </p>
  * @param mixed $_ [optional]
- * @return resource a positive handle on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
+ * @return resource|false a positive handle on success or <b>FALSE</b> on failure.
  */
 function dba_popen ($path, $mode, $handler = null, $_ = null) {}
 
@@ -156,8 +152,6 @@ function dba_popen ($path, $mode, $handler = null, $_ = null) {}
  * <b>dba_popen</b>.
  * </p>
  * @return void No value is returned.
- * @since 4.0
- * @since 5.0
  */
 function dba_close ($handle) {}
 
@@ -172,8 +166,6 @@ function dba_close ($handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
  */
 function dba_delete ($key, $handle) {}
 
@@ -188,8 +180,6 @@ function dba_delete ($key, $handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return bool <b>TRUE</b> if the key exists, <b>FALSE</b> otherwise.
- * @since 4.0
- * @since 5.0
  */
 function dba_exists ($key, $handle) {}
 
@@ -210,10 +200,29 @@ function dba_exists ($key, $handle) {}
  * </p>
  * @return string|false the associated string if the key/data pair is found, <b>FALSE</b>
  * otherwise.
- * @since 4.0
- * @since 5.0
  */
 function dba_fetch ($key, $handle) {}
+
+/**
+ * Fetch data specified by key
+ * @link https://php.net/manual/en/function.dba-fetch.php
+ * @param string $key <p>
+ * The key the data is specified by.
+ * </p>
+ * <p>
+ * When working with inifiles this function accepts arrays as keys
+ * where index 0 is the group and index 1 is the value name. See:
+ * <b>dba_key_split</b>.
+ * </p>
+ * @param int $skip The number of key-value pairs to ignore when using cdb databases. This value is ignored for all other databases which do not support multiple keys with the same name.
+ * @param resource $handle <p>
+ * The database handler, returned by <b>dba_open</b> or
+ * <b>dba_popen</b>.
+ * </p>
+ * @return string|false the associated string if the key/data pair is found, <b>FALSE</b>
+ * otherwise.
+ */
+function dba_fetch ($key, $skip, $handle) {}
 
 /**
  * Insert entry
@@ -231,8 +240,6 @@ function dba_fetch ($key, $handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
  */
 function dba_insert ($key, $value, $handle) {}
 
@@ -250,8 +257,6 @@ function dba_insert ($key, $value, $handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
  */
 function dba_replace ($key, $value, $handle) {}
 
@@ -263,8 +268,6 @@ function dba_replace ($key, $value, $handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return string the key on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
  */
 function dba_firstkey ($handle) {}
 
@@ -276,8 +279,6 @@ function dba_firstkey ($handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return string the key on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
  */
 function dba_nextkey ($handle) {}
 
@@ -289,8 +290,6 @@ function dba_nextkey ($handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
  */
 function dba_optimize ($handle) {}
 
@@ -302,8 +301,6 @@ function dba_optimize ($handle) {}
  * <b>dba_popen</b>.
  * </p>
  * @return bool <b>TRUE</b> on success or <b>FALSE</b> on failure.
- * @since 4.0
- * @since 5.0
  */
 function dba_sync ($handle) {}
 
@@ -321,8 +318,6 @@ function dba_sync ($handle) {}
  * <p>
  * When the internal cdb library is used you will see
  * cdb and cdb_make.
- * @since 4.3.0
- * @since 5.0
  */
 function dba_handlers ($full_info = false) {}
 
@@ -330,8 +325,6 @@ function dba_handlers ($full_info = false) {}
  * List all open database files
  * @link https://php.net/manual/en/function.dba-list.php
  * @return array An associative array, in the form resourceid =&gt; filename.
- * @since 4.3.0
- * @since 5.0
  */
 function dba_list () {}
 
@@ -344,7 +337,6 @@ function dba_list () {}
  * @return array|false an array of the form array(0 =&gt; group, 1 =&gt;
  * value_name). This function will return <b>FALSE</b> if
  * <i>key</i> is <b>NULL</b> or <b>FALSE</b>.
- * @since 5.0
  */
 function dba_key_split ($key) {}
 

@@ -2,12 +2,14 @@
 
 namespace StubTests;
 
+use phpDocumentor\Reflection\DocBlock\Tags\Deprecated;
 use phpDocumentor\Reflection\DocBlock\Tags\Link;
 use phpDocumentor\Reflection\DocBlock\Tags\Reference\Url;
 use phpDocumentor\Reflection\DocBlock\Tags\See;
+use phpDocumentor\Reflection\DocBlock\Tags\Since;
 use PHPUnit\Framework\TestCase;
-use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use StubTests\Model\BasePHPClass;
+use StubTests\Model\BasePHPElement;
 use StubTests\Model\PHPClass;
 use StubTests\Model\PHPConst;
 use StubTests\Model\PHPDocElement;
@@ -15,14 +17,14 @@ use StubTests\Model\PHPFunction;
 use StubTests\Model\PHPInterface;
 use StubTests\Model\PHPMethod;
 use StubTests\Model\StubProblemType;
+use StubTests\Model\Tags\RemovedTag;
+use StubTests\Parsers\Utils;
 use StubTests\TestData\Providers\PhpStormStubsSingleton;
 
 class StubsTest extends TestCase
 {
     /**
      * @dataProvider \StubTests\TestData\Providers\ReflectionTestDataProviders::constantProvider
-     * @param PHPConst $constant
-     * @throws InvalidArgumentException
      */
     public function testConstants(PHPConst $constant): void
     {
@@ -41,14 +43,15 @@ class StubsTest extends TestCase
 
     /**
      * @dataProvider \StubTests\TestData\Providers\ReflectionTestDataProviders::constantProvider
-     * @param PHPConst $constant
-     * @throws InvalidArgumentException
      */
     public function testConstantsValues(PHPConst $constant): void
     {
         $constantName = $constant->name;
         $constantValue = $constant->value;
         $stubConstants = PhpStormStubsSingleton::getPhpStormStubs()->getConstants();
+        if ($constant->hasMutedProblem(StubProblemType::STUB_IS_MISSED)) {
+            static::markTestSkipped('constant is excluded');
+        }
         if ($constant->hasMutedProblem(StubProblemType::WRONG_CONSTANT_VALUE)) {
             static::markTestSkipped('constant is excluded');
         }
@@ -63,8 +66,6 @@ class StubsTest extends TestCase
 
     /**
      * @dataProvider \StubTests\TestData\Providers\ReflectionTestDataProviders::functionProvider
-     * @param PHPFunction $function
-     * @throws InvalidArgumentException
      */
     public function testFunctions(PHPFunction $function): void
     {
@@ -94,8 +95,6 @@ class StubsTest extends TestCase
 
     /**
      * @dataProvider \StubTests\TestData\Providers\ReflectionTestDataProviders::classProvider
-     * @param PHPClass $class
-     * @throws InvalidArgumentException
      */
     public function testClasses(PHPClass $class): void
     {
@@ -172,12 +171,46 @@ class StubsTest extends TestCase
                 );
             }
         }
+        foreach ($class->properties as $property) {
+            $propertyName = $property->name;
+            if ($property->access === "private") {
+                continue;
+            }
+            if (!$property->hasMutedProblem(StubProblemType::STUB_IS_MISSED)) {
+                static::assertArrayHasKey(
+                    $propertyName,
+                    $stubClass->properties,
+                    "Missing property $className::$property->access $property->type $$propertyName"
+                );
+                $stubProperty = $stubClass->properties[$propertyName];
+                if (!$property->hasMutedProblem(StubProblemType::PROPERTY_IS_STATIC)) {
+                    static::assertEquals(
+                        $property->is_static,
+                        $stubProperty->is_static,
+                        "Property $className::$propertyName static modifier is incorrect"
+                    );
+                }
+                if (!$property->hasMutedProblem(StubProblemType::PROPERTY_ACCESS)) {
+                    static::assertEquals(
+                        $property->access,
+                        $stubProperty->access,
+                        "Property $className::$propertyName access modifier is incorrect"
+                    );
+                }
+                if (!$property->hasMutedProblem(StubProblemType::PROPERTY_TYPE)
+                    && !empty($property->type)) {
+                    static::assertEquals(
+                        $property->type,
+                        $stubProperty->type,
+                        "Property type doesn't match for property $className::$propertyName"
+                    );
+                }
+            }
+        }
     }
 
     /**
      * @dataProvider \StubTests\TestData\Providers\ReflectionTestDataProviders::interfaceProvider
-     * @param PHPInterface $interface
-     * @throws InvalidArgumentException
      */
     public function testInterfaces(PHPInterface $interface): void
     {
@@ -193,7 +226,13 @@ class StubsTest extends TestCase
         );
         $stubInterface = $stubInterfaces[$interfaceName];
         if (!$interface->hasMutedProblem(StubProblemType::WRONG_PARENT)) {
-            static::assertEquals($stubInterface->parentInterfaces, $interface->parentInterfaces);
+            foreach ($interface->parentInterfaces as $parentInterface) {
+                static::assertContains(
+                    $parentInterface,
+                    $stubInterface->parentInterfaces,
+                    "Missing parent interface $parentInterface"
+                );
+            }
         }
         foreach ($interface->constants as $constant) {
             if (!$constant->hasMutedProblem(StubProblemType::STUB_IS_MISSED)) {
@@ -249,54 +288,42 @@ class StubsTest extends TestCase
 
     /**
      * @dataProvider \StubTests\TestData\Providers\StubsTestDataProviders::stubClassConstantProvider
-     * @param string $className
-     * @param PHPConst $constant
-     * @throws InvalidArgumentException
      */
     public function testClassConstantsPHPDocs(string $className, PHPConst $constant): void
     {
         static::assertNull($constant->parseError, $constant->parseError ?: '');
-        $this->checkLinks($constant, "constant $className::$constant->name");
+        $this->checkPHPDocCorrectness($constant, "constant $className::$constant->name");
     }
 
     /**
      * @dataProvider \StubTests\TestData\Providers\StubsTestDataProviders::stubConstantProvider
-     * @param PHPConst $constant
-     * @throws InvalidArgumentException
      */
     public function testConstantsPHPDocs(PHPConst $constant): void
     {
         static::assertNull($constant->parseError, $constant->parseError ?: '');
-        $this->checkLinks($constant, "function $constant->name");
+        $this->checkPHPDocCorrectness($constant, "constant $constant->name");
     }
 
     /**
      * @dataProvider \StubTests\TestData\Providers\StubsTestDataProviders::stubFunctionProvider
-     * @param PHPFunction $function
-     * @throws InvalidArgumentException
      */
     public function testFunctionPHPDocs(PHPFunction $function): void
     {
         static::assertNull($function->parseError, $function->parseError ?: '');
-        $this->checkLinks($function, "function $function->name");
+        $this->checkPHPDocCorrectness($function, "function $function->name");
     }
 
     /**
      * @dataProvider \StubTests\TestData\Providers\StubsTestDataProviders::stubClassProvider
-     * @param BasePHPClass $class
-     * @throws InvalidArgumentException
      */
     public function testClassesPHPDocs(BasePHPClass $class): void
     {
         static::assertNull($class->parseError, $class->parseError ?: '');
-        $this->checkLinks($class, "class $class->name");
+        $this->checkPHPDocCorrectness($class, "class $class->name");
     }
 
     /**
      * @dataProvider \StubTests\TestData\Providers\StubsTestDataProviders::stubMethodProvider
-     * @param string $methodName
-     * @param PHPMethod $method
-     * @throws InvalidArgumentException
      */
     public function testMethodsPHPDocs(string $methodName, PHPMethod $method): void
     {
@@ -304,7 +331,47 @@ class StubsTest extends TestCase
             static::assertNull($method->returnTag, '@return tag for __construct should be omitted');
         }
         static::assertNull($method->parseError, $method->parseError ?: '');
-        $this->checkLinks($method, "method $methodName");
+        $this->checkPHPDocCorrectness($method, "method $methodName");
+    }
+
+    private function checkPHPDocCorrectness(BasePHPElement $element, string $elementName): void
+    {
+        $this->checkLinks($element, $elementName);
+        if ($element->stubBelongsToCore) {
+            $this->checkDeprecatedRemovedSinceVersionsMajor($element, $elementName);
+        }
+        $this->checkContainsOnlyValidTags($element, $elementName);
+    }
+
+    private function checkContainsOnlyValidTags(BasePHPElement $element, string $elementName): void
+    {
+        $VALID_TAGS = [
+            'author',
+            'copyright',
+            'deprecated',
+            'example', //temporary addition due to the number of existing cases
+            'inheritdoc',
+            'link',
+            'meta',
+            'method',
+            'mixin',
+            'package',
+            'param',
+            'property',
+            'property-read',
+            'removed',
+            'return',
+            'see',
+            'since',
+            'throws',
+            'uses',
+            'var',
+            'version',
+        ];
+        /** @var PHPDocElement $element */
+        foreach ($element->tagNames as $tagName) {
+            static::assertContains($tagName, $VALID_TAGS, "Element $elementName has invalid tag: @$tagName");
+        }
     }
 
     private static function getParameterRepresentation(PHPFunction $function): string
@@ -327,13 +394,9 @@ class StubsTest extends TestCase
         return $result;
     }
 
-    /**
-     * @param PHPDocElement $element
-     * @param string $elementName
-     * @throws InvalidArgumentException
-     */
-    private function checkLinks($element, $elementName): void
+    private function checkLinks(BasePHPElement $element, string $elementName): void
     {
+        /** @var PHPDocElement $element */
         foreach ($element->links as $link) {
             if ($link instanceof Link) {
                 static::assertStringStartsWith(
@@ -346,6 +409,41 @@ class StubsTest extends TestCase
         foreach ($element->see as $see) {
             if ($see instanceof See && $see->getReference() instanceof Url && strncmp($see, 'http', 4) === 0) {
                 static::assertStringStartsWith('https', $see, "In $elementName @see doesn't start with https");
+            }
+        }
+    }
+
+    private function checkDeprecatedRemovedSinceVersionsMajor(BasePHPElement $element, $elementName): void
+    {
+        /** @var PHPDocElement $element */
+        foreach ($element->sinceTags as $sinceTag) {
+            if ($sinceTag instanceof Since) {
+                $version = $sinceTag->getVersion();
+                if ($version !== null) {
+                    self::assertTrue(Utils::tagDoesNotHaveZeroPatchVersion($sinceTag), "$elementName has 
+                    'since' version $version.'Since' version for PHP Core functionallity for style consistensy 
+                    should have X.X format for the case when patch version is '0'.");
+                }
+            }
+        }
+        foreach ($element->deprecatedTags as $deprecatedTag) {
+            if ($deprecatedTag instanceof Deprecated) {
+                $version = $deprecatedTag->getVersion();
+                if ($version !== null) {
+                    self::assertTrue(Utils::tagDoesNotHaveZeroPatchVersion($deprecatedTag), "$elementName has 
+                    'deprecated' version $version.'Deprecated' version for PHP Core functionallity for style consistensy 
+                    should have X.X format for the case when patch version is '0'.");
+                }
+            }
+        }
+        foreach ($element->removedTags as $removedTag) {
+            if ($removedTag instanceof RemovedTag) {
+                $version = $removedTag->getVersion();
+                if ($version !== null) {
+                    self::assertTrue(Utils::tagDoesNotHaveZeroPatchVersion($removedTag), "$elementName has 
+                    'removed' version $version.'Removed' version for PHP Core functionallity for style consistensy 
+                    should have X.X format for the case when patch version is '0'.");
+                }
             }
         }
     }

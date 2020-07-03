@@ -170,7 +170,7 @@ namespace {
         function current() {}
         /**
          * Returns the yielded key or, if none was specified, an auto-incrementing key or null if the generator is already closed.
-         * @return mixed
+         * @return string|float|int|bool|null
          */
         function key() {}
         /**
@@ -198,6 +198,7 @@ namespace {
          * Throws an exception if the generator is still valid.
          * @link https://wiki.php.net/rfc/generator-return-expressions
          * @return mixed|null
+         * @since 7.0
          */
         function getReturn() {}
 
@@ -349,7 +350,7 @@ class object {
     /**
      * This method is called by var_dump() when dumping an object to get the properties that should be shown.
      * If the method isn't defined on an object, then all public, protected and private properties will be shown.
-     * @since PHP 5.6.0
+     * @since 5.6
      *
      * @return array
      * @link https://php.net/manual/en/language.oop5.magic.php#language.oop5.magic.debuginfo
@@ -359,7 +360,6 @@ class object {
   /**
    * This static method is called for classes exported by var_export() since PHP 5.1.0.
    * The only parameter of this method is an array containing exported properties in the form array('property' => value, ...).
-   * @since 5.1.0
    *
    * @param $an_array array
    * @return mixed
@@ -374,10 +374,28 @@ class object {
    * then the newly created object's __clone() method will be called, to allow any necessary properties that need to be changed.
    * NOT CALLABLE DIRECTLY.
    *
-   * @return mixed
+   * @return void
    * @link https://php.net/manual/en/language.oop5.cloning.php
    */
   public function __clone() {}
+
+    /**
+     * Returns array containing all the necessary state of the object.
+     * @since 7.4
+     * @link https://wiki.php.net/rfc/custom_object_serialization
+     */
+    public function __serialize(): array
+    {
+    }
+
+    /**
+     * Restores the object state from the given data array.
+     * @since 7.4
+     * @link https://wiki.php.net/rfc/custom_object_serialization
+     */
+    public function __unserialize(array $data): void
+    {
+    }
 
 }
 }
